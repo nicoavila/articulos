@@ -226,6 +226,8 @@ La utilización de métodos PUT y DELETE es muy similar al ejemplo anterior. Par
 }
 ```
 
+Para probar estos métodos pueden crear nuevas peticiones en Insomnia utilizando el ejemplo anterior de POST o pueden descargar diréctamente el proyecto Insomnia desde el repositorio de este artículo y probar con las peticiones ya creadas :smile:
+
 ## El camino recién comienza!
 Aun quedan muchas cosas que se deben resolver: Autenticación, conexión a una base de datos, etc. Sin embargo, ya tenemos mucho camino recorrido.  
 Ahora es el turno de ustedes para usar *hapijs* y construir aplicaciones geniales con este framework.
