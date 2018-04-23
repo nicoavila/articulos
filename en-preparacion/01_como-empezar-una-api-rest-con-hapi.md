@@ -44,9 +44,7 @@ const Hapi = require('hapi');
 const server = Hapi.server({
   port: 3000,
   host: 'localhost',
-  app: {
-    version: 1
-  }
+  app: {}
 });
 
 const iniciarServer = async () => {
@@ -70,7 +68,7 @@ En la consola ejecutaremos ```node app.js``` para iniciar el servidor. Si todo s
 ¿Qué pasó aquí? :scream: Sucede que nuestro servidor no conoce la URL a la cual estamos tratando de acceder! (/). Es por ello que debemos declarar las rutas permitidas.
 
 ## Todos los caminos llegan a Roma: Routes
-> Las rutas corresponden a la forma en como cierta URL en nuestra aplicación responde ante la petición HTTP de un cliente a través de los distintos métodos disponibles (GET, POST, PUT, PATCH, DELETE).
+> Las rutas corresponden a la forma en como cierta URL en nuestra aplicación responde ante la petición HTTP de un cliente a través de los distintos métodos disponibles (GET, POST, PUT, DELETE).
 
 Debemos definir las rutas que nuestro servidor soportará. Esto podemos hacerlo de dos maneras: 
 * En nuestro archivo ```app.js```.
@@ -88,7 +86,7 @@ module.exports = {
       {
         method: 'GET',
         path: '/',
-        handler: async (req, h) => {
+        handler: async (req, res) => {
           return 'Hola Noders!';
         }
       }
@@ -97,7 +95,7 @@ module.exports = {
 }
 ```
 
-En un plugin, los atributos **name** y **register** son necesarios. El atributo **name** debe ser único dentro de nuestra aplicación (no pueden existir dos plugins con el mismo nombre). La función **register** contiene la lógica necesaria para registrar el plugin en nuestro servidor Hapi.
+En un plugin los atributos **name** y **register** son necesarios. El atributo **name** debe ser único dentro de nuestra aplicación (no pueden existir dos plugins con el mismo nombre). La función **register** contiene la lógica necesaria para registrar el plugin en nuestro servidor Hapi.
 **server.route()** puede contener una o varias rutas definidas dentro de un array.
 
 Finalmente necesitaremos incluir las rutas en el archivo ```app.js```:
@@ -139,14 +137,14 @@ Agregaremos un nuevo objeto en el array de la función ```server.route([])``` **
 {
   method: 'GET',
   path: '/usuarios/{nombre?}',
-  handler: async (req, h) => {
+  handler: async (req, res) => {
     const nombre = (req.params.nombre) ? req.params.nombre : 'invitado';
     return `Hola ${nombre}!`;
   }
 }
 ```
 
-Esta nueva ruta permite recibir **parámetros**. La propiedad *path* de nuestra ruta posee el nombre del parámetro que deseamos recibir (en este caso *nombre*). Cada parámetro a recibir en el path de la ruta debe ser declarado entre corchetes ```{}```. El signo de interrogación ```?``` al final del nombre del parámetros nos indica que este parámetro es *optativo*.
+Esta nueva ruta permite recibir **parámetros**. La propiedad *path* de nuestra ruta posee el nombre del parámetro que deseamos recibir (en este caso *nombre*). Cada parámetro a recibir en el path de la ruta debe ser declarado entre llaves ```{}```. El signo de interrogación ```?``` al final del nombre del parámetros nos indica que este parámetro es *optativo*.
 
 Al volver a nuestro navegador web e ingresar la siguiente dirección: ```http://localhost:3000/usuarios/noders``` veremos el mensaje *Hola noders!*. Si solo ingresamos ```http://localhost:3000/usuarios``` veremos el mensaje *Hola invitado!*
 
@@ -171,13 +169,13 @@ Ahora agregaremos una nueva ruta para recibir una petición POST
 }
 ```
 
-Esta ruta es ligeramente distinta, ya que hemos agregado la posibilidad de recibir parámetros mediante POST, los que son capturados a través de ```req.payload.NOMBRE_DEL_PARAMETRO```. La ruta devuelve una respuesta en formato [JSON](https://json.org/json-es.html) mediante el uso de ```res.response({DATOS}).type('application/json')```.  
+Esta ruta es ligeramente distinta, ya que hemos agregado la posibilidad de recibir parámetros mediante POST, los que son capturados a través de ```req.payload.NOMBRE_DEL_PARAMETRO```. La ruta devuelve una respuesta en formato [JSON](https://json.org/json-es.html) mediante el uso de ```res.response({DATOS}).type('application/json')```, donde ```{DATOS}``` corresponde al objeto que deseamos incluir en la respuesta.  
 
 Para poder probar esta nueva ruta, usaremos el cliente HTTP Insomnia. Abrimos el programa y creamos una nueva petición haciendo click en el botón con el signo (+), opción *New Request*:
 
 ![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/06_06insomnia_nueva_peticion.jpg)
 
-Se desplegará una ventana modal en donde debemos indicar un *nombre amigable para la petición*, el *método* que utilizaremos y si tiene cuerpo o no. Luego de ingresada la información, presionaremos el botón *Create*:
+Se desplegará una ventana modal en donde debemos indicar un *nombre amigable para la petición*, el *método* que utilizaremos y si tiene cuerpo o no. Luego de ingresar la información presionaremos el botón *Create*:
 
 ![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/07_07insomnia_dialogo_nueva_peticion.jpg)
 
@@ -185,7 +183,7 @@ Ahora procederemos a indicar a que URL debe apuntar nuestra nueva petición. Ing
 
 ![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/08_08insomnia_configuracion_peticion.jpg)
 
-Para poder enviar información mediante POST es necesario especificar que utilizaremos un cuerpo en esta petición. Seleccionaremos la opción *Form URL Encoded* desde el menú dropdown.
+Para poder enviar información mediante POST es necesario especificar que utilizaremos un *cuerpo en esta petición*. Seleccionaremos la opción *Form URL Encoded* desde el menú dropdown.
 
 ![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/09_09insomnia_cuerpo.jpg)
 
@@ -226,8 +224,8 @@ La utilización de métodos PUT y DELETE es muy similar al ejemplo anterior. Par
 }
 ```
 
-Para probar estos métodos pueden crear nuevas peticiones en Insomnia utilizando el ejemplo anterior de POST o pueden descargar diréctamente el proyecto Insomnia desde el repositorio de este artículo y probar con las peticiones ya creadas :smile:
+Para probar estos métodos pueden crear nuevas peticiones en **Insomnia*** utilizando el ejemplo anterior de POST o pueden descargar diréctamente el [proyecto Insomnia](https://github.com/nicoavila/tutorial-api-hapi/blob/master/insomnia.json) desde el repositorio de este artículo y probar con las peticiones ya creadas :smile:
 
-## El camino recién comienza!
+## Esto recién comienza!
 Aun quedan muchas cosas que se deben resolver: Autenticación, conexión a una base de datos, etc. Sin embargo, ya tenemos mucho camino recorrido.  
 Ahora es el turno de ustedes para usar *hapijs* y construir aplicaciones geniales con este framework.
