@@ -54,6 +54,7 @@ Permite activar una versión específica de Node
 ![Comando nvm use](http://nicoavila.s3.amazonaws.com/articulos/06_02comando-nvm-use.jpg)
 
 ### nvm uninstall <VERSIÓN>
+Permite desinstalar una versión específica de Node
 
 ![Comando nvm uninstall](http://nicoavila.s3.amazonaws.com/articulos/07_02comando-nvm-uninstall.jpg)
 
@@ -65,4 +66,4 @@ Puede ser un poco laborioso para algunos tener que estar cambiando constantement
 La respuesta es creado un archivo ```.nvmrc```
 
 ## ¿Y si tengo Windows :scream: ?
-Lamentablemente NVM está solo disponible para Linux y macOS :sad:... Pero tranquil@s! :joy: Si tu sistema operativo es Windows aun puedes utilizar NVM. Existe una versión paralela (totalmente separada de la versión oficial) llamada [nvm-windows](https://github.com/coreybutler/nvm-windows). Los comandos básicos (como listar, instalar y usar) se encuentran disponibles.
+Lamentablemente NVM está solo disponible para Linux y macOS :sad:... Pero tranquil@s! :smile: Si tu sistema operativo es Windows aun puedes utilizar NVM. Existe una versión paralela (totalmente separada de la versión oficial) llamada [nvm-windows](https://github.com/coreybutler/nvm-windows). Los comandos básicos (como listar, instalar y usar) se encuentran disponibles.
