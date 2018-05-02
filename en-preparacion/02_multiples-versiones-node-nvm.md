@@ -62,8 +62,12 @@ Permite desinstalar una versión específica de Node
 Es recomendable desinstalar previamente cualquier versión de Node antes de utilizar NVM
 
 ## ¿Cómo sacarle partido a NVM en nuestros proyectos?
-Puede ser un poco laborioso para algunos tener que estar cambiando constantemente de versión
-La respuesta es creado un archivo ```.nvmrc```
+Puede ser un poco laborioso para algunos tener que estar cambiando constantemente de versión de Node cuando trabajamos en múltiples proyectos. Existe una solución que permite agilizar este proceso.  
+En la carpeta principal del proyecto se debe crear un archivo ```.nvmrc``` que contenga el número de versión que deseamos utilizar. Por ejemplo
+
+```bash
+8.9.1
+```
 
 ## ¿Y si tengo Windows :scream: ?
 Lamentablemente NVM está solo disponible para Linux y macOS :sad:... Pero tranquil@s! :smile: Si tu sistema operativo es Windows aun puedes utilizar NVM. Existe una versión paralela (totalmente separada de la versión oficial) llamada [nvm-windows](https://github.com/coreybutler/nvm-windows). Los comandos básicos (como listar, instalar y usar) se encuentran disponibles.
