@@ -49,8 +49,13 @@ Permite instalar una versión en específico. Una vez ha finalizado la instalaci
 ![Comando nvm list --lts](http://nicoavila.s3.amazonaws.com/articulos/05_02comando-nvm-install.jpg)
 
 ### nvm use <VERSIÓN>
+Permite activar una versión específica de Node
+
+![Comando nvm use](http://nicoavila.s3.amazonaws.com/articulos/06_02comando-nvm-use.jpg)
 
 ### nvm uninstall <VERSIÓN>
+
+![Comando nvm uninstall](http://nicoavila.s3.amazonaws.com/articulos/07_02comando-nvm-uninstall.jpg)
 
 ## ¿Que ocurre si ya tengo una versión de Node previamente instalada?
 Es recomendable desinstalar previamente cualquier versión de Node antes de utilizar NVM
