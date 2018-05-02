@@ -12,7 +12,10 @@
 - [ ] Chocolatey.
 
 # Escribiendo
-- [ ] Múltiples versiones de Node con NVM.
+- [ ] Revisión histórica de JavaScript.
+
+# En Revisión
+- [x] Múltiples versiones de Node con NVM.
 
 # Escritos
 - [x] Cómo empezar una API RESTful en con hapi.
