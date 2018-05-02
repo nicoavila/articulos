@@ -69,5 +69,7 @@ En la carpeta principal del proyecto se debe crear un archivo ```.nvmrc``` que c
 8.9.1
 ```
 
+Luego mediante la consola, nos dirigimos a la carpeta del proyecto y escribimos ```nvm use``` para activar la versión correspondiente.
+
 ## ¿Y si tengo Windows :scream: ?
 Lamentablemente NVM está solo disponible para Linux y macOS :sad:... Pero tranquil@s! :smile: Si tu sistema operativo es Windows aun puedes utilizar NVM. Existe una versión paralela (totalmente separada de la versión oficial) llamada [nvm-windows](https://github.com/coreybutler/nvm-windows). Los comandos básicos (como listar, instalar y usar) se encuentran disponibles.
