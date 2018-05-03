@@ -63,7 +63,7 @@ La variable ```server``` contiene la nueva instancia del servidor **hapi**. Los 
 
 En la consola ejecutaremos ```node app.js``` para iniciar el servidor. Si todo sale bien veremos un mensaje: ```Servidor corriendo en: http://localhost:3000```. Si vamos a un navegador web y accedemos a la URL mencionada veremos una respuesta similar a esta:
 
-![Imagen 404 Rutas](http://nicoavila.s3.amazonaws.com/articulos/03_03localhost_404.jpg);
+![Imagen 404 Rutas](http://nicoavila.s3.amazonaws.com/articulos/01_03localhost_404.jpg);
 
 ¿Qué pasó aquí? :scream: Sucede que nuestro servidor no conoce la URL a la cual estamos tratando de acceder! (/). Es por ello que debemos declarar las rutas permitidas.
 
@@ -125,7 +125,7 @@ iniciarServer();
 
 Reiniciamos el servidor presionando ```Ctrl + C``` y ejecutamos nuevamente ```node app.js```. Al recargar la página ```http://localhost:3000``` en nuestro navegado obtendremos la siguiente respuesta:
 
-![Imagen Hola Noders](http://nicoavila.s3.amazonaws.com/articulos/04_04hola_noders.jpg)
+![Imagen Hola Noders](http://nicoavila.s3.amazonaws.com/articulos/01_04hola_noders.jpg)
 
 ## Agregando nuevas rutas
 Nuestro servidor ya responde ante peticiones de un cliente. Debemos agregar nuevas rutas para que nuestra API responda ante otros métodos como POST, PUT y DELETE.
@@ -148,7 +148,7 @@ Esta nueva ruta permite recibir **parámetros**. La propiedad *path* de nuestra 
 
 Al volver a nuestro navegador web e ingresar la siguiente dirección: ```http://localhost:3000/usuarios/noders``` veremos el mensaje *Hola noders!*. Si solo ingresamos ```http://localhost:3000/usuarios``` veremos el mensaje *Hola invitado!*
 
-![Imagen GET Parámetros](http://nicoavila.s3.amazonaws.com/articulos/05_05get_parametros.jpg)
+![Imagen GET Parámetros](http://nicoavila.s3.amazonaws.com/articulos/01_05get_parametros.jpg)
 
 ### POST
 Ahora agregaremos una nueva ruta para recibir una petición POST
@@ -173,27 +173,27 @@ Esta ruta es ligeramente distinta, ya que hemos agregado la posibilidad de recib
 
 Para poder probar esta nueva ruta, usaremos el cliente HTTP Insomnia. Abrimos el programa y creamos una nueva petición haciendo click en el botón con el signo (+), opción *New Request*:
 
-![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/06_06insomnia_nueva_peticion.jpg)
+![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/01_06insomnia_nueva_peticion.jpg)
 
 Se desplegará una ventana modal en donde debemos indicar un *nombre amigable para la petición*, el *método* que utilizaremos y si tiene cuerpo o no. Luego de ingresar la información presionaremos el botón *Create*:
 
-![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/07_07insomnia_dialogo_nueva_peticion.jpg)
+![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/01_07insomnia_dialogo_nueva_peticion.jpg)
 
 Ahora procederemos a indicar a que URL debe apuntar nuestra nueva petición. Ingresaremos ```http://localhost:3000/usuarios``` y seleccionaremos la opción *POST* desde el menú dropdown.
 
-![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/08_08insomnia_configuracion_peticion.jpg)
+![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/01_08insomnia_configuracion_peticion.jpg)
 
 Para poder enviar información mediante POST es necesario especificar que utilizaremos un *cuerpo en esta petición*. Seleccionaremos la opción *Form URL Encoded* desde el menú dropdown.
 
-![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/09_09insomnia_cuerpo.jpg)
+![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/01_09insomnia_cuerpo.jpg)
 
 En la configuración del cuerpo de la petición agregaremos el atributo *nombre* y *apellido* con los valores indicados en la imagen. Finalmente para enviar la petición a nuestro servidor presionaremos el botón *Send*
 
-![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/10_10insomnia_enviar.jpg)
+![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/01_10insomnia_enviar.jpg)
 
 Nuestro servidor nos responderá esto:
 
-![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/11_11insomnia_respuesta.jpg)
+![Imagen creación petición](http://nicoavila.s3.amazonaws.com/articulos/01_11insomnia_respuesta.jpg)
 
 ### PUT y DELETE
 La utilización de métodos PUT y DELETE es muy similar al ejemplo anterior. Para ello debemos definir nuevas rutas:

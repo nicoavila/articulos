@@ -1,6 +1,7 @@
 # Ideas para escribir
 - [ ] Escribiendo un motor de Raycasting en JS: Teoría.
 - [ ] Escribiendo un motor de Raycasting en JS: Coding.
+- [ ] Deployear en menos de 10min una aplicación Node en Google App Engine.
 - [ ] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
 - [ ] Usar Vidyo WebSDK en una aplicación Angular.
 - [ ] Reconocimiento de imágenes con AWS Recognition y Node.

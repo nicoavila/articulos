@@ -5,7 +5,7 @@ Nos encanta [Node](https://nodejs.org/)! Y cada vez que sale un nuevo release de
 Si trabajamos con Node, de seguro tenemos una versión instalada en nuestro entorno de desarrollo. El problema ocurre cuando queremos trabajar con una versión específica en un proyecto o queremos probar una característica específica de un [release](https://nodejs.org/es/about/releases/): qué estrategia podemos utilizar?. Ahi es cuando **Node Version Manager** o **[NVM](https://github.com/creationix/nvm)** sale al rescate!. Esta pequeña utilidad nos permite mantener múltiples versiones de Node en nuestro sistema las cuales pueden ser cambiadas bajo demanda.  
 En este tutorial aprenderemos a instalar y usar NVM.
 
-![Imagen Principal](http://nicoavila.s3.amazonaws.com/articulos/01_02multiples-versiones-node-nvm.jpg)
+![Imagen Principal](http://nicoavila.s3.amazonaws.com/articulos/02_01multiples-versiones-node-nvm.jpg)
 
 ## Breve introducción al versionamiento de Node
 Node utiliza [versionamiento semántico](https://semver.org/) para cada uno de sus releases. Poseen un [proceso muy estructurado](https://github.com/nodejs/Release#mandate) para realizar el lanzamiento de una nueva versión.  
@@ -36,27 +36,27 @@ A continuación mostraré los comandos más utilizados. Pueden acceder a la list
 ### nvm list
 Permite listar todas las versiones instaladas en tu sistema. En mi caso tengo instaladas las versiones **8.4.0**, **8.9.1**, **8.9.4** y **8.10.0**. 
 
-![Comando nvm list](http://nicoavila.s3.amazonaws.com/articulos/03_02comando-nvm-list.jpg)
+![Comando nvm list](http://nicoavila.s3.amazonaws.com/articulos/02_03comando-nvm-list.jpg)
 
 ### nvm ls-remote --lts
 Permite listar todas las versiones LTS disponibles para descargar desde los repositorios oficiales de Node. Si utilizan el comando sin el flag ```--lts```, NVM listará todas las versiones disponibles de Node.
 
-![Comando nvm list --lts](http://nicoavila.s3.amazonaws.com/articulos/04_02comando-nvm-ls-remote.jpg)
+![Comando nvm list --lts](http://nicoavila.s3.amazonaws.com/articulos/02_04comando-nvm-ls-remote.jpg)
 
 ### nvm install <VERSIÓN>
 Permite instalar una versión en específico. Una vez ha finalizado la instalación, NVM automáticamente cambiará la versión a la última descargada.
 
-![Comando nvm list --lts](http://nicoavila.s3.amazonaws.com/articulos/05_02comando-nvm-install.jpg)
+![Comando nvm list --lts](http://nicoavila.s3.amazonaws.com/articulos/02_05comando-nvm-install.jpg)
 
 ### nvm use <VERSIÓN>
 Permite activar una versión específica de Node
 
-![Comando nvm use](http://nicoavila.s3.amazonaws.com/articulos/06_02comando-nvm-use.jpg)
+![Comando nvm use](http://nicoavila.s3.amazonaws.com/articulos/02_06comando-nvm-use.jpg)
 
 ### nvm uninstall <VERSIÓN>
 Permite desinstalar una versión específica de Node
 
-![Comando nvm uninstall](http://nicoavila.s3.amazonaws.com/articulos/07_02comando-nvm-uninstall.jpg)
+![Comando nvm uninstall](http://nicoavila.s3.amazonaws.com/articulos/02_07comando-nvm-uninstall.jpg)
 
 ## ¿Que ocurre si ya tengo una versión de Node previamente instalada?
 Es recomendable desinstalar previamente cualquier versión de Node antes de utilizar NVM
