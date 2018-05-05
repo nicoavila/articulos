@@ -1,7 +1,7 @@
 # Ideas para escribir
 - [ ] Escribiendo un motor de Raycasting en JS: Teoría.
 - [ ] Escribiendo un motor de Raycasting en JS: Coding.
-- [ ] Deployear en menos de 10min una aplicación Node en Google App Engine.
+- [ ] Deployear en menos de 10 min. una aplicación Node en Google App Engine.
 - [ ] Usar Vidyo WebSDK en una aplicación Angular.
 - [ ] Usar Insomnia like a PRO.
 - [ ] Google Cloud Firestore y Angular.
