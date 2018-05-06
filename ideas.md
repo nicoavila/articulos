@@ -12,7 +12,7 @@
 
 # Escribiendo
 - [ ] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
-- [ ] Reconocimiento de imágenes con AWS Recognition y Node.
+- [x] Reconocimiento de emociones con AWS Recognition y Node.
 - [ ] Revisión histórica de JavaScript.
 
 # En Revisión
