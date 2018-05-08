@@ -88,3 +88,48 @@ const rekognition = new AWS.Rekognition({
   apiVersion: '2016-06-27'
 });
 ```
+## Preparando las imágenes
+La documentación de AWS Rekognition indica que las imágenes que utilicemos deben estar presentes en un [AWS S3](https://aws.amazon.com/es/s3/) Bucket o pasarse encodeadas como [Buffer](https://nodejs.org/api/buffer.html).  
+La aplicación leerá las imágenes presentes en una carpeta. Crearemos una carpeta llamada **input** en donde guardaremos tres imágenes JPG que contengan emociones. Las que he seleccionado son:
+
+![Caras](http://nicoavila.s3.amazonaws.com/articulos/03_11emociones.jpg)
+
+En el archivo ```app.js```agregaremos lo siguiente:
+
+```javascript
+const file_name = 'imagen1.jpg';
+const bitmap = fs.readFileSync(`./input/${file_name}`);
+let image = {
+  Image: {
+    Bytes: new Buffer(bitmap)
+  },
+  Attributes: ['ALL']
+}
+```
+
+Nuestro programa procesará **una imagen a la vez**. En la variable ```file_name``` indicaremos la imagen que deseamos procesar. Adicionalmente, debemos indicar que debemos detectar todos los atributos de la imágen. Eso lo lograremos indicando el valor ```'ALL'``` en "Attributes".
+
+## Llamando al servicio de detección de rostros
+Debemos llamar al método ```detectFaces()```, el cual recibe dos argumentos:
+
+1. Objeto de imagen (S3 Bucket o Buffer).
+2. Callback con el resultado de **AWS Rekognition**.
+
+Agregaremos la siguiente línea:
+
+```javascript
+rekognition.detectFaces(image, (error, data) => {
+  if (error) {
+    throw new Error(error);
+  }
+
+  console.log(data);
+});
+```
+
+Si ejecutamos nuestro programa *As It*, recibiremos el siguiente resultado:
+
+![Console Output](http://nicoavila.s3.amazonaws.com/articulos/03_12console-output.jpg)
+
+Como pueden ver **AWS Rekognition** es capaz de identificar varias características en nuestras imágenes, tales como: barba, sonrisa, rango de edad, uso de lentes o barba, entre otros. Lo que nos interesa analizar para este ejemplo es **Emotions**.
+
