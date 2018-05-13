@@ -21,7 +21,7 @@ touch app.js
 Para realizar este tutorial necesitaremos contar una cuenta de [Amazon Web Services](https://aws.amazon.com/es/). Ofrecen un tier gratuito de procesamiento para 5000 imágenes mensuales, lo que basta y sobra para nuestro pequeño proyecto :smile:. Pueden crear una nueva cuenta [aquí](https://aws.amazon.com/es/free/).
 
 ### Creando un Access Key
-El SDK de AWS require el uso de un **Access Key**, el cual debe ser creado desde la [Consola de Administración de AWS](http://console.aws.amazon.com/). Para ello debemos iniciar sesión con el email y contraseña de su cuenta.
+El SDK de AWS requiere el uso de un **Access Key**, el cual debe ser creado desde la [Consola de Administración de AWS](http://console.aws.amazon.com/). Para ello debemos iniciar sesión con el email y contraseña de su cuenta.
 
 ![Iniciar Sesión AWS](http://nicoavila.s3.amazonaws.com/articulos/03_02iniciar-sesion-aws.jpg)
 
@@ -112,7 +112,7 @@ Nuestro programa procesará **una imagen a la vez**. En la variable ```file_name
 ## Llamando al servicio de detección de rostros
 Debemos llamar al método ```detectFaces()```, el cual recibe dos argumentos:
 
-1. Objeto de imagen (S3 Bucket o Buffer).
+1. Objeto de imagen ([S3 Bucket](https://aws.amazon.com/es/s3/) o Buffer).
 2. Callback con el resultado de **AWS Rekognition**.
 
 Agregaremos la siguiente línea:
@@ -132,4 +132,73 @@ Si ejecutamos nuestro programa *As It*, recibiremos el siguiente resultado:
 ![Console Output](http://nicoavila.s3.amazonaws.com/articulos/03_12console-output.jpg)
 
 Como pueden ver **AWS Rekognition** es capaz de identificar varias características en nuestras imágenes, tales como: barba, sonrisa, rango de edad, uso de lentes o barba, entre otros. Lo que nos interesa analizar para este ejemplo es **Emotions**.
+Al inspeccionar este array obtenemos lo siguiente:
+
+![Console Emotions](http://nicoavila.s3.amazonaws.com/articulos/03_13console-emotions.jpg)
+
+Sin embargo, debemos solo considerar el objeto con el grado de *confidence* más alto (en este caso la emoción **Happy** con una probabilidad de 98.88). Para lograr esto, podemos utilizar la función ```reduce()```
+
+> La función ```reduce()``` nos permite aplicar una función a cada elemento dentro de un array con la finalidad de reducir la cantidad de elementos del array a un solo valor.
+
+Agregaremos lo siguiente:
+
+```javascript
+data.FaceDetails.forEach((response) => {
+  let maxConfidence = response.Emotions.reduce((a, b) => b.Confidence > b.Confidence ? b : a);
+});
+```
+
+El valor de la variable ```maxConfidence``` corresponderá al resultado de la función ```reduce()```, que es un único objeto con el **máximo valor de Confidence**
+
+De manera opcional, podemos agregar un ```switch()```para traducir el nombre de la emoción desde el Inglés al Español
+
+```javascript
+let emotionName = '';
+switch (maxConfidence.Type) {
+  case 'HAPPY':
+    emotionName = 'ALEGRÍA';
+  break;
+
+  case 'SAD':
+    emotionName = 'PENA';
+  break;
+  
+  case 'ANGRY':
+    emotionName = 'ENOJO';
+  break;
+  
+  case 'CONFUSED':
+    emotionName = 'CONFUSIÓN';
+  break;
+  
+  case 'DISGUSTED':
+    emotionName = 'DISGUSTO';
+  break;
+  
+  case 'SURPRISED':
+    emotionName = 'SORPRESA';
+  break;
+  
+  case 'CALM':
+    emotionName = 'CALMA';
+  break;
+
+  case 'UNKNOWN':
+    emotionName = 'DESCONOCIDA';
+  break;
+
+  default:
+    emotionName = 'DESCONOCIDA';
+  break;
+}
+console.log(`La emoción predominante en la imágen es ${emotionName} con un grado de seguridad de ${maxConfidence.Confidence}`);
+```
+
+El resultado de la ejecución del programa será el siguiente:
+
+![Resultado programa](http://nicoavila.s3.amazonaws.com/articulos/03_14resultado.jpg)
+
+Espero que este breve tutorial les haya ayudado a motivarse a explorar la gran cantidad de productos relacionados con Machine Learning e Inteligencia Artificial que posee Amazon Web Services.
+
+
 
