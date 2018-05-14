@@ -13,9 +13,10 @@
 
 # Escribiendo
 - [x] Angular (revisión 6) y Firestore
-- [x] Un guía rápida a Angular Material
-- [ ] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
-- [ ] Revisión histórica de JavaScript.
+- [x] Integrando ThreeJS en Angular
+- [x] Un guía rápida de Angular Material
+- [x] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
+- [x] Revisión histórica de JavaScript.
 
 # En Revisión
 - [x] Reconocimiento de emociones con AWS Recognition y Node.
