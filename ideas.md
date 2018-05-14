@@ -9,15 +9,15 @@
 - [ ] Usando un servicio de mail transaccional con Node.
 - [ ] Comparación de clientes HTTP populares usados en Node (request, axios, etc).
 - [ ] Chocolatey.
+- [ ] Angular, Tensorflow.js y Salud
 
 # Escribiendo
+- [x] Angular (revisión 6) y Firestore
 - [ ] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
-- [x] Reconocimiento de emociones con AWS Recognition y Node.
-- [x] Angular, Tensorflow.js y Salud
 - [ ] Revisión histórica de JavaScript.
 
 # En Revisión
-- (Vacío actualmente)
+- [x] Reconocimiento de emociones con AWS Recognition y Node.
 
 # Escritos
 - [x] Cómo empezar una API RESTful en con hapi.
