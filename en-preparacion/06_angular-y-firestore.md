@@ -10,4 +10,25 @@ En esta guía, iremos paso a paso creando una pequeña aplicación en Angular (v
 
 ## Antes de empezar: Creación de un proyecto en Firebase
 
-El paso inicial es la creación de un nuevo proyecto en Firebase. Para ello, utilizando una cuenta Google (si no tienes una puedes crear una aquí), 
+El paso inicial es la creación de un nuevo proyecto en Firebase. Para ello, utilizando una cuenta Google (si no tienes una puedes [crear una aquí](https://accounts.google.com/SignUp?hl=es-419)), debemos dirigirnos a la [Consola de Administración de Firebase](https://console.firebase.google.com/). Debemos hacer click sobre el ícono **Agregar Proyecto**
+
+![Creación de nuevo proyecto en Firebase](http://nicoavila.s3.amazonaws.com/articulos/06_02creacion-nuevo-proyecto.jpg)
+
+Debemos ingresar un **nombre** para el nuevo proyecto. Para este tutorial usaremos el nombre **Angular Chile Firestore**. Ustedes deberán utilizar otro nombre que genere un identificador distinto, ya que los ID de proyectos en Google Cloud son únicos.  
+Seleccionaremos la opción correspondiente al país y presionamos el botón **Crear proyecto**
+
+![Modal creación proyecto](http://nicoavila.s3.amazonaws.com/articulos/06_03modal-creacion-nuevo-proyecto.jpg)
+
+El proyecto tardará unos segundos en crearse. Al finalizar este proceso seremos redirigidos al dashboard del proyecto. Acá debemos hacer click sobre **Agregar Firebase a tu app web**
+
+![Bienvenida Firebase](http://nicoavila.s3.amazonaws.com/articulos/06_04bienvenida-firebase.jpg)
+
+Se desplegará un modal que contendrá toda la información necesaria para conectarnos al proyecto. El objeto ```config``` tiene una serie de atributos necesarios para configurar más adelante Firestore en Angular, por lo que debemos dejar esta información anotada en algún lado (o simplemente pueden volver a la consola y realizar el mismo paso anterior).
+
+![Configuración Firebase](http://nicoavila.s3.amazonaws.com/articulos/06_05configuracion-firebase.jpg)
+
+
+
+
+
+
