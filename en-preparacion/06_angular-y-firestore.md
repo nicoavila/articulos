@@ -27,8 +27,22 @@ Se desplegará un modal que contendrá toda la información necesaria para conec
 
 ![Configuración Firebase](http://nicoavila.s3.amazonaws.com/articulos/06_05configuracion-firebase.jpg)
 
+## Sobe Firestore
+Firestore trabaja con **documentos**. Los documentos corresponden a objetos con una serie de atributos. Cada documento posee su identificador único alfanumérico.
+El tipo de información que es posible guardar en un documento corresponde a:
+
+* Strings
+* Números
+* Booleanos
+* Null
+* Objetos
+* Arrays
+* Referencias
+
+Los documentos están organizados en grupos llamados **colecciones**. Una de las grandes ventajas de Firestore sobre Realtime Database, es que podemos realizar búsquedas de documentos mediante un atributo de un objeto. Es posible realizar búsquedas complejas por más de un atributo, previo a la creación de un [índice](https://firebase.google.com/docs/firestore/query-data/indexing?hl=es-419).
+
 ## Configuración de Firestore en Angular
-Generaremos un nuevo proyecto de angular con el siguiente comando
+Generaremos un nuevo proyecto de Angular con el siguiente comando
 
 ```bash
 ng new tutorial-angular-firestore
@@ -88,7 +102,9 @@ export class AppModule { }
 ## Que es lo que vamos a construir?
 Vamos a construir una pequeña aplicación en donde podamos listar e ingresar fotografías de gatos, las que se desplegarán en una lista. Para ello, con nuestra aplicación configurada, seguiremos una serie de pasos
 
-(IMAGEN GIF DE LA APLICACIÓN FUNCIONANDO)
+![Imagen Aplicación](http://nicoavila.s3.amazonaws.com/articulos/06_06a-construir.jpg)
+
+> El framework CSS utilizado en este tutorial es [Furtive](http://furtive.co/), un microframework con lo básico. La integración con de Angular con este framework será abordado en otro artículo <3
 
 ### Paso 1: Creación de un Service para Firestore
 Para encapsular toda la lógica de comunicación con Firestore, crearemos un nuevo servicio. Ejecutaremos el siguiente comando en la terminal:
@@ -96,6 +112,8 @@ Para encapsular toda la lógica de comunicación con Firestore, crearemos un nue
 ```ng g service services/firestore/firestore```
 
 Esto creará los archivos ```firestore.service.ts``` y ```firestore.service.spec.ts``` en la ruta ```src/app/services/firestore/```.
+
+Agregaremos lo siguiente al servicio:
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -133,6 +151,58 @@ export class FirestoreService {
 }
 ```
 
+Hemos definido una serie de **métodos públicos** que nos permiten realizar un CRUD sobre la colección **cats** en nuestro proyecto. A continuación revisaremos el detalle de cada uno de los métodos:
 
+* ```constructor()```: Corresponde al constructor de nuestra clase FirestoreService. Los constructores por definición son métodos que se ejecutan cada vez que se crea una instancia de un objeto. Se ha definido el atributo firestore, el cual corresponde a una instancia de AngularFirestore, que expone todos los métodos que podemos utilizar en la librería.
+
+* ```createCat()```: Este método añadirá un nuevo documento en la colección *cats* mediante el uso del método ```add()```.
+
+* ```getCat()```: Este método obtiene un documento en específico de la colección *cats*. Retorna un *Observable*.
+
+* ```getCats()```: Este método obtiene todos los documentos de la colección *cats*. Retorna un *Observable*.
+
+* ```updateCat()```: Este médoto actualiza un documento en específico de la colección *cats*. Retorna un *Observable*.
+
+### Paso 2: Creación del componente CatsComponent
+Crearemos un nuevo componente llamado **CatsComponent** que permita utilizar el servicio **FirestoreService**. Para ello, en el terminal, ejecutaremos lo siguiente:
+
+```bash
+ng g component cats
+```
+
+Esto creará los archivos ```cats.component.ts```, ```cats.component.spec.ts```, ```cats.component.html``` y ```cats.component.css``` en la ruta ```src/app/cats/```.
+
+En el archivo ```cats.component.ts```agregaremos lo siguiente:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { FirestoreService } from '../services/firestore/firestore.service';
+
+@Component({
+  selector: 'app-cats',
+  templateUrl: './cats.component.html',
+  styleUrls: ['./cats.component.css']
+})
+export class CatsComponent implements OnInit {
+
+  public cats = [];
+
+  constructor(
+    private firestoreService: FirestoreService
+  ) { }
+
+  ngOnInit() {
+    this.firestoreService.getCats().subscribe((catsSnapshot) => {
+      this.cats = [];
+      catsSnapshot.forEach((catData: any) => {
+        this.cats.push({
+          id: catData.payload.doc.id,
+          data: catData.payload.doc.data()
+        });
+      })
+    });
+  }
+}
+```
 
 
