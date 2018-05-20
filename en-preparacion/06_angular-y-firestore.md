@@ -1,10 +1,10 @@
-# Angular (revision 6) y Firestore
+# Angular 6 y Firestore
 ### Mayo 2018
 
 [Firebase](https://firebase.google.com/?hl=es-419) es una plataforma de Google que permite crear aplicaciones en forma rápida con una serie de servicios disponibles. **Realtime Database** nos permite contar con un sistema de almacenamiento de datos no-relacional en tiempo real. Cuando un valor en la base de datos cambia, ese cambio se propaga a todos los clientes conectados a nuestra base de datos.  
 La alta demanda del producto y la ausencia de algunas características que permitan utilizar a Realtime Database como una verdadera base de datos no-relacional (ver las diferencias entre productos [acá](https://firebase.google.com/docs/firestore/rtdb-vs-firestore)), [motivó a Google a lanzar en Octubre del 2017](https://cloud.google.com/firestore/docs/release-notes) un nuevo producto llamado [Cloud Firestore](https://firebase.google.com/docs/firestore/?hl=es-419).  
 **Firestore** es una base de datos orientada a documentos y colecciones. Posee las mismas características de Realtime Database (propagación de cambios en tiempo real a los clientes conectados reglas de seguridad, etc), pero con algunas mejoras que lo transforman en un producto prometedor.  
-En esta guía, iremos paso a paso creando una pequeña aplicación en Angular (versión 6 lógicamente :smiley:) que lea / escriba información en Firestore.
+En esta guía, crearemos paso a paso una pequeña aplicación en Angular (versión 6 lógicamente :smiley:) que lea / escriba información en Firestore.
 
 ![Angular y Firestore](http://nicoavila.s3.amazonaws.com/articulos/06_01angular-y-firestore.jpg)
 
@@ -14,7 +14,7 @@ El paso inicial es la creación de un nuevo proyecto en Firebase. Para ello, uti
 
 ![Creación de nuevo proyecto en Firebase](http://nicoavila.s3.amazonaws.com/articulos/06_02creacion-nuevo-proyecto.jpg)
 
-Debemos ingresar un **nombre** para el nuevo proyecto. Para este tutorial usaremos el nombre **Angular Chile Firestore**. Ustedes deberán utilizar otro nombre que genere un identificador distinto, ya que los ID de proyectos en Google Cloud son únicos.  
+Ingresaremos un **nombre** para el nuevo proyecto. Para este tutorial usaremos el nombre **Angular Chile Firestore**. Ustedes deberán utilizar otro nombre que genere un identificador distinto, ya que los ID de proyectos en Google Cloud son únicos.  
 Seleccionaremos la opción correspondiente al país y presionamos el botón **Crear proyecto**
 
 ![Modal creación proyecto](http://nicoavila.s3.amazonaws.com/articulos/06_03modal-creacion-nuevo-proyecto.jpg)
@@ -130,7 +130,7 @@ export class FirestoreService {
   ) {}
 
   //Crea un nuevo gato
-  public createCat(data: {name: string, urlImage: string}) {
+  public createCat(data: {nombre: string, url: string}) {
     return this.firestore.collection('cats').add(data);
   }
 
@@ -204,5 +204,183 @@ export class CatsComponent implements OnInit {
   }
 }
 ```
+Los tres elementos importantes en el componente hasta ahora son los siguiente:
+
+* La variable pública ```cats```, que corresponde a un array con todos los gatos que obtendremos desde Firestore.
+* La inyección del servicio **FirestoreService** en nuestro componente.
+* El llamado de la función ```.getCats()```. Esta función retorna un observable con todos los documentos en la colección *cats*. Se itera sobre cada documento para así obtener su **id** y sus **datos**, los cuales son guardados como un objeto en el array ```cats```.
+
+En el template del componente, el archivo ```cats.component.html``` agregaremos lo siguiente:
+
+```html
+<div class="grd">
+  <div class="grd-row">
+    <div class="grd-row-col-2">
+        <h1>🐱 Gatos 🐱</h1>
+
+        <form>
+          <label for="nombre">Nombre</label>
+          <input type="text" name="nombre">
+
+          <label for="url_img">Imagen</label>
+          <input type="url" name="url_img">
+
+          <input type="submit" class="btn--blue btn--add" value="Agregar">
+        </form>
+    </div>
+    <div class="grd-row-col-4">
+      <div class="cats_container">
+        <div class="media" *ngFor="let cat of cats">
+          <div class="media-figure">
+            <img [src]="cat.data.url">
+          </div>
+          <div class="media-body">
+            <p>{{cat.data.nombre}}</p>
+            <div class="btn--group">
+              <button class="btn--green btn--s btn1">Editar</button>
+              <button class="btn--red btn--s btn2">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+La parte importante por el momento es esta:
+
+```html
+<div class="media" *ngFor="let cat of cats">
+  <div class="media-figure">
+    <img [src]="cat.data.url">
+  </div>
+  <div class="media-body">
+    <p>{{cat.data.nombre}}</p>
+    <div class="btn--group">
+      <button class="btn--green btn--s btn1">Editar</button>
+      <button class="btn--red btn--s btn2">Eliminar</button>
+    </div>
+  </div>
+</div>
+```
+
+La directiva ```*ngFor```iterará por cada elemento del array **cats** para asi crear tantos bloques como documentos en nuestra colección *cats* existan.  
+El atributo ```[src]``` de la etiqueta ```<img>``` mostrará el valor de *url*, del objeto *cat* que hemos definido en el ```*ngFor```.  
+El valor de la etiqueta ```<p>``` mostrará el valor de *nombre*, del objeto *cat* que hemos definido en el ```*ngFor```.
+
+### Paso 3: Creación de una colección y documento
+Con lo anterior, seremos capaces de mostrar todos los documentos que se encuentren en nuestra colección *cats* :cat:. Para probar que todo funciona correctamente nos dirigiremos nuevamente a la [Consola de Administración de Firebase](https://console.firebase.google.com/) y crearemos manualmente una nueva **colección** y **documento**
+
+![Consola Administración](http://nicoavila.s3.amazonaws.com/articulos/06_07consola-administracion.jpg)
+
+Haremos click en el botón que dice **Agregar colección**. Se desplegará un nuevo modal en donde debemos agregar la información que nos solicita. En primera instancia debemos crear una nueva colección, la que nombraremos *cats*. Para continuar, haremos click en el botón **Siguiente**
+
+![Nueva colección](http://nicoavila.s3.amazonaws.com/articulos/06_08creacion-coleccion-cats.jpg)
+
+El siguiente paso es la creación de un nuevo documento. Cada documento en Firestore posee un ID único por colección. Dejaremos que Firebase cree un ID para el nuevo documento haciendo click sobre el botón **ID Automático**.
+Luego, debemos agregar todos los atributos del nuevo documento. Agregaremos dos campos con la siguiente información:
+
+1. Campo: nombre | Tipo: (String) | Valor: "Hey! I'm a cat!"
+2. Campo: url | Tipo: (String) | Valor: "https://pbs.twimg.com/profile_images/602729491916435458/hSu0UjMC_400x400.jpg"
+
+Para finalizar, haremos click en el botón **Guardar**.
+
+![Nuevo documento](http://nicoavila.s3.amazonaws.com/articulos/06_09creacion-nuevo-documento.jpg)
+
+Al agregar el documento y revisar lo que hemos construído hasta el momento
+
+![Nuevo gatito](http://nicoavila.s3.amazonaws.com/articulos/06_10resultado-creacion-documento.jpg)
+
+### Paso 4: Crear nuevos documentos desde Angular
+Nuestra aplicación Angular se comunica correctamente con Firestore y es capaz de mostrar los documentos que agreguemos en la colección *cats*. Sin embargo, aun no podemos agregar, editar y eliminar documentos desde la aplicación haciendo uso de los métodos que creamos en el servicio ```firestore.service.ts```.
+
+El primer paso es agregar el **módulo de formularios** a la aplicación. Para ello debemos importar el módulo ```FormsModule``` y ```ReactiveFormsModule``` desde ```@angular/forms``` y agregarlo en el array ```imports``` del decorador ```@NgModule``` en el archivo **app.module.ts**.
+
+```typescript
+@NgModule({
+  declarations: [...],
+  imports: [
+    ...
+    FormsModule,
+    ReactiveFormsModule
+    ...
+  ],
+  providers: [...],
+  bootstrap: [...]
+})
+```
+
+Luego en el archivo ```cats.component.ts``` agregaremos las siguientes líneas sobre el constructor de la clase:
+
+```typescript
+public currentStatus = 0;
+public newCatForm = new FormGroup({
+  nombre: new FormControl('', Validators.required),
+  url: new FormControl('', Validators.required),
+  id: new FormControl('')
+});
+```
+
+Al tener solo un formulario como punto de entrada, manejaremos dos estados de la aplicación. ```currentStatus = 0```indicará que la aplicación se encuentra en **modo de creación de documentos**, mientras que ```currentStatus = 1```indicará que la aplicación se encuentra en **modo de edición de documentos**.
+El template del componente, el archivo ```cats.component.html``` debemos modificarlo con lo siguiente:
+
+```html
+<form (ngSubmit)="newCat(newCatForm.value)" [formGroup]="newCatForm">
+  <input type="hidden" formControlName="id">
+
+  <label for="nombre">Nombre</label>
+  <input type="text" formControlName="nombre">
+
+  <label for="url_img">Imagen</label>
+  <input type="url" formControlName="url">
+
+  <input type="submit" class="btn--blue btn--add" [disabled]="!newCatForm.valid" value="Agregar">
+</form>
+```
+
+Las partes importantes del template son las siguientes:
+
+* ```(ngSubmit)="newCat(newCatForm.value)"```: Al realizar el submit del formulario, se ejecutará el método ```newCat()```, el cual toma como argumento el *valor actual del formulario*.
+* ```[formGroup]="newCatForm"```: Indica que el formulario pertenece al FormGroup *newCatForm*, declarado en la clase de nuestro componente.
+* ```formControlName="nombre" y formControlName="url"```: Indica que los inputs *nombre* y *url* pertenecen al formulario *newCatForm*.
+
+Finalmente, en el archivo ```cats.component.ts``` agregaremos el siguiente método público:
+
+```typescript
+public newCat(form, documentId = null) {
+  if (this.currentStatus == 1) {
+    let data = {
+      nombre: form.nombre,
+      url: form.url
+    }
+    this.firestoreService.createCat(data).then(() => {
+      console.log('Documento creado exitósamente!');
+      this.newCatForm.setValue({
+        nombre: '',
+        url: '',
+        id: ''
+      });
+    }, (error) => {
+      console.error(error);
+    });
+  } else {
+    let data = {
+      name: form.name,
+      url: form.url
+    }
+    this.firestoreService.updateCat(form.id, form).then(() => {
+      this.currentStatus = 1;
+      console.log('Documento editado exitósamente');
+    }, (error) => {
+      console.log(error);
+    });
+  }
+}
+```
+
+Las partes importantes son las siguientes:
+
+
 
 
