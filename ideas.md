@@ -12,7 +12,6 @@
 - [ ] Angular, Tensorflow.js y Salud
 
 # Escribiendo
-- [x] Angular (revisión 6) y Firestore
 - [x] Integrando ThreeJS en Angular
 - [x] Un guía rápida de Angular Material
 - [x] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
@@ -24,3 +23,4 @@
 # Escritos
 - [x] Cómo empezar una API RESTful en con hapi.
 - [x] Múltiples versiones de Node con NVM.
+- [x] Angular 6 y Firestore

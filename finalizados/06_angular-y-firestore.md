@@ -1,12 +1,14 @@
 # Angular 6 y Firestore
 ### Mayo 2018
 
+![Angular y Firestore](http://nicoavila.s3.amazonaws.com/articulos/06_01angular-y-firestore.jpg)
+
 [Firebase](https://firebase.google.com/?hl=es-419) es una plataforma de Google que permite crear aplicaciones en forma rápida con una serie de servicios disponibles. **Realtime Database** nos permite contar con un sistema de almacenamiento de datos no-relacional en tiempo real. Cuando un valor en la base de datos cambia, ese cambio se propaga a todos los clientes conectados a nuestra base de datos.  
 La alta demanda del producto y la ausencia de algunas características que permitan utilizar a Realtime Database como una verdadera base de datos no-relacional (ver las diferencias entre productos [acá](https://firebase.google.com/docs/firestore/rtdb-vs-firestore)), [motivó a Google a lanzar en Octubre del 2017](https://cloud.google.com/firestore/docs/release-notes) un nuevo producto llamado [Cloud Firestore](https://firebase.google.com/docs/firestore/?hl=es-419).  
 **Firestore** es una base de datos orientada a documentos y colecciones. Posee las mismas características de Realtime Database (propagación de cambios en tiempo real a los clientes conectados reglas de seguridad, etc), pero con algunas mejoras que lo transforman en un producto prometedor.  
 En esta guía, crearemos paso a paso una pequeña aplicación en Angular (versión 6 lógicamente :smiley:) que lea / escriba información en Firestore.
 
-![Angular y Firestore](http://nicoavila.s3.amazonaws.com/articulos/06_01angular-y-firestore.jpg)
+> El repositorio de la aplicación abordada en esta guía puden encontrarlo en [https://github.com/nicoavila/tutorial-angular-firestore](https://github.com/nicoavila/tutorial-angular-firestore)
 
 ## Antes de empezar: Creación de un proyecto en Firebase
 
@@ -148,6 +150,11 @@ export class FirestoreService {
   public updateCat(documentId: string, data: {name?: string, urlImage?:string}) {
     return this.firestore.collection('cats').doc(documentId).set(data);
   }
+
+  //Borra un gato
+  public deleteCat(documentId: string) {
+    return this.firestore.collection('cats').doc(documentId).delete();
+  }
 }
 ```
 
@@ -162,6 +169,8 @@ Hemos definido una serie de **métodos públicos** que nos permiten realizar un 
 * ```getCats()```: Este método obtiene todos los documentos de la colección *cats*. Retorna un *Observable*.
 
 * ```updateCat()```: Este médoto actualiza un documento en específico de la colección *cats*. Retorna un *Observable*.
+
+* ```deleteCat()```: Este método elimina un documento en específico de la colección *cats*. Retorna un *Observable*.
 
 ### Paso 2: Creación del componente CatsComponent
 Crearemos un nuevo componente llamado **CatsComponent** que permita utilizar el servicio **FirestoreService**. Para ello, en el terminal, ejecutaremos lo siguiente:
@@ -371,6 +380,11 @@ public newCat(form, documentId = null) {
     }
     this.firestoreService.updateCat(form.id, form).then(() => {
       this.currentStatus = 1;
+      this.newCatForm.setValue({
+        nombre: '',
+        url: '',
+        id: ''
+      });
       console.log('Documento editado exitósamente');
     }, (error) => {
       console.log(error);
@@ -379,8 +393,52 @@ public newCat(form, documentId = null) {
 }
 ```
 
-Las partes importantes son las siguientes:
+En esta sección, la acción del botón submit será distinta en relación al valor de la variable **currentStatus**. Si el valor es **1**, la aplicación estará en modo creación, permitiendo llamar al método ```createCat()``` que posibilita guardar un nuevo documento en la colección *cats*. Por el contrario, si el valor de **currentStatus** es **2**, la aplicación estará en modo de edición, permitiendo llamar al método ```updateCat()``` que posibilita la modificación de un documento en la colección *cats*.
 
+### Paso 5: Edición de documentos
+Para editar documentos, modificaremos el archivo ```cats.component.html```, añadiendo lo siguiente a la etiqueta del botón editar:
 
+```html
+<button class="btn--green btn--s btn1" (click)="editCat(cat.id)">Editar</button>
+```
 
+En el archivo ```cats.component.ts``` añadiremos un nuevo método público llamado **editCat()**
 
+```typescript
+public editCat(documentId) {
+  this.firestoreService.getCat(documentId).subscribe((cat) => {
+    this.currentStatus = 2;
+    this.newCatForm.setValue({
+      id: documentId,
+      nombre: cat.payload.data().nombre,
+      url: cat.payload.data().url
+    });
+  });
+}
+```
+
+Este método permite consultar por un documento en la colección *cats* basado en la variable **documentId**. Una vez se obtiene el documento, la aplicación pasará a modo de edición (currentStatus = 2), para así cargar el contenido del documento en el formulario.  
+Como en el paso anterior hemos agregado una lógica que permite la edición de documentos, al modificar el formulario se guardaran nuevos valores para el documento que se encuentra en modo edición.
+
+### Paso 6: Eliminación de documentos
+Para poder eliminar documentos, modificaremos ligeramente el archivo ```cats.component.html``` agregando lo siguiente:
+
+```html
+<button class="btn--red btn--s btn2" (click)="deleteCat(cat.id")>Eliminar</button>
+```
+
+Luego, en la clase del componente (archivo ```cats.component.ts```) agregaremos el siguiente método público
+
+```typescript
+public deleteCat(documentId) {
+  this.firestoreService.deleteCat(documentId).then(() => {
+    console.log('Documento eliminado!');
+  }, (error) => {
+    console.error(error);
+  });
+}
+```
+
+Este método llamará a la función ```deleteCat()``` del servicio **FirestoreService**, que permite eliminar un documento de una colección. Como cada acción en la base de datos de Firestore se propaga a todos los clientes conectados, cuando elíminemos un documento presionando el botón **Eliminar**, este automáticamente desaparecerá de la lista.
+
+Espero que esta guía les sirva para iniciarse en **Firestore**. Aun queda mucho por revisar: reglas de acceso, storage, y lo nuevo de Firebase: [ML Kit](https://youtu.be/ejrn_JHksws), que abordaremos en próximas publicaciones. Si tienen alguna duda, pueden contactarme a través de twitter ([@nicoavila_a](https://twitter.com/nicoavila_a)).
