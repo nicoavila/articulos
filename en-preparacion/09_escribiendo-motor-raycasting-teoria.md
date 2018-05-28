@@ -10,10 +10,16 @@ El 2014, llegué por casualidad al blog de un desarrollador muy talentoso llamad
 
 Wolfstein3D y otros títulos utilizan una técnica llamada **Raycasting** para simular, mediante transformaciones lineales, gráficos 3D a partir de gráficos 2D. El raycasting hace uso de rayos, los cuales son emitidos desde un punto en un espacio bidimensional. La colisión de los rayos son evaluadas para determinar la posición del jugador en el mundo y así realizar el [rendering](https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) de la escena.
 
-He tenido una fascinación un poco extraña por la rama de *computer graphics*: he leído mucho del tema, creo que es apasionante, pero nunca me he ensuciado las manos con algo de código al respecto. Creo que es tiempo de cambiar eso escribiendo de una vez por todas un *motor de raycasting*. Estos motores tienen una complejidad básica en cuanto a los cálculos que hay que realizar para dibujar algo y creo que es un buen ejercicio para ahondar más sobre el tema y desempolvar mis libros :smiley:.
+He tenido una fascinación un poco extraña por la rama de *computer graphics*: he leído mucho del tema, creo que es apasionante, pero nunca me he ensuciado las manos con algo de código al respecto. Creo que es tiempo de cambiar eso escribiendo de una vez por todas un *motor de raycasting*. Estos motores tienen una complejidad básica en cuanto a los cálculos que hay que realizar para dibujar algo y creo que es un buen ejercicio para ahondar más sobre el tema y desempolvar mis libros de una vez por todas :smiley:.
+
+Esta es la primera parte de una serie de dos publicaciones. Particularmente abordaré los aspectos teóricos de escribir un motor de raycasting, para luego, en una segunda entrega, implementar el mismo motor en JavaScript :heart:
 
 ## Referencias
 
-* Lode's Computer Graphics Tutorial [http://lodev.org/cgtutor/raycasting.html](http://lodev.org/cgtutor/raycasting.html).
+* Lode's Computer Graphics Tutorial: [Web](http://lodev.org/cgtutor/raycasting.html).
+
+* Ray-Casting Tutorial For Game Development And Other Purpose: [Web](https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/)
+
+* Game Engine Black Book: Wolfstein 3D: [Amazon](https://www.amazon.com/Game-Engine-Black-Book-Wolfenstein/dp/1539692876/ref=sr_1_1?ie=UTF8&qid=1527479654&sr=8-1&keywords=game+engine+black+book)
 
 
