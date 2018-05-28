@@ -170,3 +170,27 @@ Para realizar el build de la aplicación ejecutaremos el siguiente comando en la
 ng build --prod --output-hashing=none && cat dist/dog-of-the-day/{runtime,polyfills,scripts,main}.js | gzip > elements.js.gz
 ```
 
+En este paso, lo importante a considerar es lo siguiente:
+
+* Utilizaremos el flag ```output-hashing=none``` para no generar hashing en nuestros archivos
+* El resultado del comando ```cat``` para todos los archivos se pasa al comando ```gzip```que generará el archivo **elements.js.gz** para ser utilizado como standalone. Finalmente tenemos un web component que podemos utilizar en una aplicación web. A continuación escribiremos un pequeño archivo HTML que haga uso de nuestro resultado :smiley:
+
+## Utilización del web
+Crearemos un archivo ```index.html``` el cual tendrá el siguiente contenido:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Dog of The Day - Angular Chile</title>
+  </head>
+
+  <body>
+    <ng-chile-dotd></ng-chile-dotd>
+    <script src="elements.js"></script>
+  </body>
+</html>
+```
+
+Estamos utilizando directamente la etiqueta ```<ng-chile-dotd></ng-chile-dotd>``` en nuestro nuevo archivo HTML. Debemos agregar el archivo ```elements.js.gz``` bajo la declaración de la etiqueta *<ng-chile-dotd>* para que funcione correctamente. Recuerden probar el archivo sobre un servidor que soporte GZIP, de lo contrario no funcionará correctamente.
