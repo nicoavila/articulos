@@ -14,4 +14,4 @@ En este artículo hablaré sobre [BIDS](http://bids.neuroimaging.io/), un **est�
 ## Referencias
 
 1. [The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments](https://www.nature.com/articles/sdata201644)
-2. 
+2. [History of Neuroimaging: The Legacy of William Oldendorf](http://journals.sagepub.com/doi/abs/10.1177/0883073809359083)

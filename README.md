@@ -16,5 +16,5 @@ Repositorio con mis artículos personales para mi Medium y Comunidades de Desarr
 ### devsChile
 * [Múltiples versiones de Node con NVM](https://medium.com/devschile/m%C3%BAltiples-versiones-de-node-con-nvm-63b2ac715c38)
 
-## Proin Chile
+### Proin Chile
 * [Reconocimiento de emociones con AWS Rekognition y Node](https://medium.com/proinchile/reconocimiento-de-emociones-con-aws-rekognition-y-node-7760252c9427)
