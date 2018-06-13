@@ -12,10 +12,12 @@
 
 # Escribiendo
 - [x] Revisión a BIDS: Brain Image Data Structure
+- [x] ¿Qué es la Informática Biomédica?
 - [x] Integrando ThreeJS en Angular
 - [ ] Un guía rápida de Angular Material
 - [x] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
 - [x] Revisión histórica de JavaScript.
+- [x] Detección de rostros en Google Chrome.
 
 # En Revisión
 (Vacío)
@@ -23,6 +25,7 @@
 # Escritos
 - [x] Cómo empezar una API RESTful en con hapi.
 - [x] Múltiples versiones de Node con NVM.
-- [x] Reconocimiento de emociones con AWS Recognition y Node.
-- [x] Angular 6 y Firestore
-- [x] Web Components con Angular Elements
+- [x] Reconocimiento de emociones con AWS Recognition y Node..
+- [x] Angular 6 y Firestore.
+- [x] Web Components con Angular Elements.
+- [x] Detección de rostros con Google Chrome.
