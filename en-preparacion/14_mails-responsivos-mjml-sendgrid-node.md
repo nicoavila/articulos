@@ -3,4 +3,4 @@
 
 ![MJML Portada](http://nicoavila.s3.amazonaws.com/articulos/14_01mails-responsivos-mjml-sendgrid-node.jpg)
 
-
+El envío de mailings en nuestras aplicaciones en un requerimiento frecuente. 
