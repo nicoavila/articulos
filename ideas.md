@@ -11,12 +11,12 @@
 
 # Escribiendo
 - [x] Escribiendo un motor de Raycasting: Teoría.
-- [x] Revisión a BIDS: Brain Image Data Structure
+- [x] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
 - [ ] ¿Qué es la Informática Biomédica?
 - [x] Integrando ThreeJS en Angular
 - [ ] Un guía rápida de Angular Material
-- [x] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
 - [x] Revisión histórica de JavaScript.
+- [x] Revisión a BIDS: Brain Image Data Structure
 
 # En Revisión
 (Vacío)
