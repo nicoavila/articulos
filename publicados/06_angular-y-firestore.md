@@ -8,6 +8,8 @@ La alta demanda del producto y la ausencia de algunas características que permi
 **Firestore** es una base de datos orientada a documentos y colecciones. Posee las mismas características de Realtime Database (propagación de cambios en tiempo real a los clientes conectados reglas de seguridad, etc), pero con algunas mejoras que lo transforman en un producto prometedor.  
 En esta guía, crearemos paso a paso una pequeña aplicación en Angular (versión 6 lógicamente :smiley:) que lea / escriba información en Firestore.
 
+> **Update Agosto 2018**: Muchas gracias a todos por el feedback del artículo. Se agregó el paso necesario para las reglas de autenticación y se corrigieron algunos problemas en la edición.
+
 > El repositorio de la aplicación abordada en esta guía puden encontrarlo en [https://github.com/nicoavila/tutorial-angular-firestore](https://github.com/nicoavila/tutorial-angular-firestore)
 
 ## Antes de empezar: Creación de un proyecto en Firebase
@@ -132,7 +134,7 @@ export class FirestoreService {
   ) {}
 
   //Crea un nuevo gato
-  public createCat(data: {nombre: string, url: string}) {
+  public createCat(data: any) {
     return this.firestore.collection('cats').add(data);
   }
 
@@ -147,7 +149,7 @@ export class FirestoreService {
   }
 
   //Actualiza un gato
-  public updateCat(documentId: string, data: {name?: string, urlImage?:string}) {
+  public updateCat(documentId: string, data: any) {
     return this.firestore.collection('cats').doc(documentId).set(data);
   }
 
@@ -198,7 +200,7 @@ export class CatsComponent implements OnInit {
 
   constructor(
     private firestoreService: FirestoreService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.firestoreService.getCats().subscribe((catsSnapshot) => {
@@ -274,11 +276,22 @@ La parte importante por el momento es esta:
 </div>
 ```
 
-La directiva ```*ngFor```iterará por cada elemento del array **cats** para asi crear tantos bloques como documentos en nuestra colección *cats* existan.  
+La directiva ```*ngFor```iterará por cada elemento del array **cats** para asi crear tantos bloques como documentos en nuestra colección *cats* existan. 
+
+> Si deseas saber más sobre *ngFor te recomendamos leer el artículo [Directivas Estructurales en Angular 6](https://medium.com/angular-chile/directivas-estructurales-en-angular-33529aa9dd31)
+
 El atributo ```[src]``` de la etiqueta ```<img>``` mostrará el valor de *url*, del objeto *cat* que hemos definido en el ```*ngFor```.  
 El valor de la etiqueta ```<p>``` mostrará el valor de *nombre*, del objeto *cat* que hemos definido en el ```*ngFor```.
 
-### Paso 3: Creación de una colección y documento
+### Paso 3: Reglas
+Firestore posee un completo sistemas de reglas que nos permitirán otorgar accesos de **lectura** y **escritura** a nuestros usuarios basado en su estado de autenticación u otra condición. Las reglas se manejan en una estructura similar al JSON.
+Para efectos de nuestro tutorial, dejaremos las reglas tal como indica la imagen:
+
+![Reglas Firestore](http://nicoavila.s3.amazonaws.com/articulos/06_11reglas.jpg)
+
+> De esta manera estamos permitiendo que cualquier persona que posea nuestra configuración de Firebase puede leer y escribir en nuestro proyecto. Lo dejaremos de esta manera solo para fines académicos. Sin embargo no se recomienda dejar esta regla en producción. Para leer un poco más respecto a la autenticación pueden visitar la [documentación oficial](https://firebase.google.com/docs/auth/?hl=es-419)
+
+### Paso 4: Creación de una colección y documento
 Con lo anterior, seremos capaces de mostrar todos los documentos que se encuentren en nuestra colección *cats* :cat:. Para probar que todo funciona correctamente nos dirigiremos nuevamente a la [Consola de Administración de Firebase](https://console.firebase.google.com/) y crearemos manualmente una nueva **colección** y **documento**
 
 ![Consola Administración](http://nicoavila.s3.amazonaws.com/articulos/06_07consola-administracion.jpg)
@@ -301,7 +314,7 @@ Al agregar el documento y revisar lo que hemos construído hasta el momento
 
 ![Nuevo gatito](http://nicoavila.s3.amazonaws.com/articulos/06_10resultado-creacion-documento.jpg)
 
-### Paso 4: Crear nuevos documentos desde Angular
+### Paso 5: Crear nuevos documentos desde Angular
 Nuestra aplicación Angular se comunica correctamente con Firestore y es capaz de mostrar los documentos que agreguemos en la colección *cats*. Sin embargo, aun no podemos agregar, editar y eliminar documentos desde la aplicación haciendo uso de los métodos que creamos en el servicio ```firestore.service.ts```.
 
 El primer paso es agregar el **módulo de formularios** a la aplicación. Para ello debemos importar el módulo ```FormsModule``` y ```ReactiveFormsModule``` desde ```@angular/forms``` y agregarlo en el array ```imports``` del decorador ```@NgModule``` en el archivo **app.module.ts**.
@@ -323,11 +336,22 @@ El primer paso es agregar el **módulo de formularios** a la aplicación. Para e
 Luego en el archivo ```cats.component.ts``` agregaremos las siguientes líneas sobre el constructor de la clase:
 
 ```typescript
-public currentStatus = 0;
+public documentId = null;
+public currentStatus = 1;
 public newCatForm = new FormGroup({
   nombre: new FormControl('', Validators.required),
   url: new FormControl('', Validators.required),
   id: new FormControl('')
+});
+```
+
+En el constructor de la clase agregaremos lo siguiente:
+
+```typescript
+this.newCatForm.setValue({
+  id: '',
+  nombre: '',
+  url: ''
 });
 ```
 
@@ -344,7 +368,7 @@ El template del componente, el archivo ```cats.component.html``` debemos modific
   <label for="url_img">Imagen</label>
   <input type="url" formControlName="url">
 
-  <input type="submit" class="btn--blue btn--add" [disabled]="!newCatForm.valid" value="Agregar">
+  <input type="submit" class="btn--blue btn--add" [disabled]="!newCatForm.valid" [value]="(currentStatus == 1) ? 'Agregar' : 'Editar'">
 </form>
 ```
 
@@ -357,7 +381,8 @@ Las partes importantes del template son las siguientes:
 Finalmente, en el archivo ```cats.component.ts``` agregaremos el siguiente método público:
 
 ```typescript
-public newCat(form, documentId = null) {
+public newCat(form, documentId = this.documentId) {
+  console.log(`Status: ${this.currentStatus}`);
   if (this.currentStatus == 1) {
     let data = {
       nombre: form.nombre,
@@ -375,10 +400,10 @@ public newCat(form, documentId = null) {
     });
   } else {
     let data = {
-      name: form.name,
+      nombre: form.nombre,
       url: form.url
     }
-    this.firestoreService.updateCat(form.id, form).then(() => {
+    this.firestoreService.updateCat(documentId, data).then(() => {
       this.currentStatus = 1;
       this.newCatForm.setValue({
         nombre: '',
@@ -395,7 +420,7 @@ public newCat(form, documentId = null) {
 
 En esta sección, la acción del botón submit será distinta en relación al valor de la variable **currentStatus**. Si el valor es **1**, la aplicación estará en modo creación, permitiendo llamar al método ```createCat()``` que posibilita guardar un nuevo documento en la colección *cats*. Por el contrario, si el valor de **currentStatus** es **2**, la aplicación estará en modo de edición, permitiendo llamar al método ```updateCat()``` que posibilita la modificación de un documento en la colección *cats*.
 
-### Paso 5: Edición de documentos
+### Paso 6: Edición de documentos
 Para editar documentos, modificaremos el archivo ```cats.component.html```, añadiendo lo siguiente a la etiqueta del botón editar:
 
 ```html
@@ -406,13 +431,15 @@ En el archivo ```cats.component.ts``` añadiremos un nuevo método público llam
 
 ```typescript
 public editCat(documentId) {
-  this.firestoreService.getCat(documentId).subscribe((cat) => {
+  let editSubscribe = this.firestoreService.getCat(documentId).subscribe((cat) => {
     this.currentStatus = 2;
+    this.documentId = documentId;
     this.newCatForm.setValue({
       id: documentId,
       nombre: cat.payload.data().nombre,
       url: cat.payload.data().url
     });
+    editSubscribe.unsubscribe();
   });
 }
 ```
@@ -420,7 +447,7 @@ public editCat(documentId) {
 Este método permite consultar por un documento en la colección *cats* basado en la variable **documentId**. Una vez se obtiene el documento, la aplicación pasará a modo de edición (currentStatus = 2), para así cargar el contenido del documento en el formulario.  
 Como en el paso anterior hemos agregado una lógica que permite la edición de documentos, al modificar el formulario se guardaran nuevos valores para el documento que se encuentra en modo edición.
 
-### Paso 6: Eliminación de documentos
+### Paso 7: Eliminación de documentos
 Para poder eliminar documentos, modificaremos ligeramente el archivo ```cats.component.html``` agregando lo siguiente:
 
 ```html
