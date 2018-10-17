@@ -19,7 +19,7 @@ Si no se declara una etiqueta ```enctype``` en un formulario, se asume por defec
 Para utilizar ```multipart/form-data``` es necesario incluir un input de tipo **file** en el formulario.
 
 ## Express y multipart/form-data
-Por defecto, el paquete ```body-parser``` no permite manejar **multipart/form-data** :sweat:. Citando a su documentación:
+Por defecto, el paquete ```body-parser``` (el paquete encargado de manejar los requests en Express) no permite manejar **multipart/form-data** :sweat:. Citando a su documentación:
 
 > This does not handle multipart bodies, due to their complex and typically large nature.
 
