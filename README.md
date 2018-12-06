@@ -1,5 +1,5 @@
 # Artículos Personales
-Repositorio con artículos personales para mi [Medium](https://medium.com) y **Comunidades de Desarrollo**
+> Repositorio con artículos personales para mi [Medium](https://medium.com) y **Comunidades de Desarrollo**
 
 ## Artículos personales
 * TO-DO
@@ -7,6 +7,10 @@ Repositorio con artículos personales para mi [Medium](https://medium.com) y **C
 ## Comunidades
 
 ### Angular Chile
+* [Integrar Frameworks CSS en Angular](https://medium.com/angular-chile/integrar-frameworks-css-en-angular-d2cc98a8284f)
+* [Directivas Estructurales en Angular](https://medium.com/angular-chile/directivas-estructurales-en-angular-33529aa9dd31)
+* [Ambientes personalizados en Angular 6](https://medium.com/angular-chile/ambientes-personalizados-en-angular-6-6996e24b6359)
+
 * [Web Components con Angular Elements](https://medium.com/angular-chile/web-components-con-angular-elements-9bc6efd1265f)
 * [Angular 6 y Firestore](https://medium.com/angular-chile/angular-6-y-firestore-b7f270adcc96)
 * [Angular CLI Workpace Bajo la Lupa](https://medium.com/angular-chile/angular-cli-workspace-bajo-la-lupa-417b9e7eb836)
