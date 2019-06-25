@@ -7,7 +7,7 @@
 - [ ] Usando un servicio de mail transaccional con Node.
 - [ ] Chocolatey.
 - [ ] Angular, Tensorflow.js y Salud
-- [ ] State Management con Akita en Angular
+- [ ] State Management con NGXS en Angular
 
 # Escribiendo
 - [x] Escribiendo un motor de Raycasting: Teoría.
