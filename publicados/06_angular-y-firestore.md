@@ -1,14 +1,16 @@
-# Angular 6 y Firestore
+# Angular 8 y Firestore
 ### Mayo 2018
 
-![Angular y Firestore](http://nicoavila.s3.amazonaws.com/articulos/06_01angular-y-firestore.jpg)
+![Angular y Firestore](https://nicoavila.s3.amazonaws.com/articulos/06_01angular-y-firestore.jpg)
+
+> **Update Octubre 2019**: Se ha actualizado el repositorio y artículo a Angular 8. Muchas gracias a todos por sus comentarios y avisos de fix :smile:. Tengo pendiente agregar un `interface`
+
+> **Update Agosto 2018**: Muchas gracias a todos por el feedback del artículo. Se agregó el paso necesario para las reglas de autenticación y se corrigieron algunos problemas en la edición.
 
 [Firebase](https://firebase.google.com/?hl=es-419) es una plataforma de Google que permite crear aplicaciones en forma rápida con una serie de servicios disponibles. **Realtime Database** nos permite contar con un sistema de almacenamiento de datos no-relacional en tiempo real. Cuando un valor en la base de datos cambia, ese cambio se propaga a todos los clientes conectados a nuestra base de datos.  
 La alta demanda del producto y la ausencia de algunas características que permitan utilizar a Realtime Database como una verdadera base de datos no-relacional (ver las diferencias entre productos [acá](https://firebase.google.com/docs/firestore/rtdb-vs-firestore)), [motivó a Google a lanzar en Octubre del 2017](https://cloud.google.com/firestore/docs/release-notes) un nuevo producto llamado [Cloud Firestore](https://firebase.google.com/docs/firestore/?hl=es-419).  
 **Firestore** es una base de datos orientada a documentos y colecciones. Posee las mismas características de Realtime Database (propagación de cambios en tiempo real a los clientes conectados reglas de seguridad, etc), pero con algunas mejoras que lo transforman en un producto prometedor.  
 En esta guía, crearemos paso a paso una pequeña aplicación en Angular (versión 6 lógicamente :smiley:) que lea / escriba información en Firestore.
-
-> **Update Agosto 2018**: Muchas gracias a todos por el feedback del artículo. Se agregó el paso necesario para las reglas de autenticación y se corrigieron algunos problemas en la edición.
 
 > El repositorio de la aplicación abordada en esta guía puden encontrarlo en [https://github.com/nicoavila/tutorial-angular-firestore](https://github.com/nicoavila/tutorial-angular-firestore)
 
@@ -16,20 +18,20 @@ En esta guía, crearemos paso a paso una pequeña aplicación en Angular (versi�
 
 El paso inicial es la creación de un nuevo proyecto en Firebase. Para ello, utilizando una cuenta Google (si no tienes una puedes [crear una aquí](https://accounts.google.com/SignUp?hl=es-419)), debemos dirigirnos a la [Consola de Administración de Firebase](https://console.firebase.google.com/). Debemos hacer click sobre el ícono **Agregar Proyecto**
 
-![Creación de nuevo proyecto en Firebase](http://nicoavila.s3.amazonaws.com/articulos/06_02creacion-nuevo-proyecto.jpg)
+![Creación de nuevo proyecto en Firebase](https://nicoavila.s3.amazonaws.com/articulos/06_02creacion-nuevo-proyecto.jpg)
 
 Ingresaremos un **nombre** para el nuevo proyecto. Para este tutorial usaremos el nombre **Angular Chile Firestore**. Ustedes deberán utilizar otro nombre que genere un identificador distinto, ya que los ID de proyectos en Google Cloud son únicos.  
 Seleccionaremos la opción correspondiente al país y presionamos el botón **Crear proyecto**
 
-![Modal creación proyecto](http://nicoavila.s3.amazonaws.com/articulos/06_03modal-creacion-nuevo-proyecto.jpg)
+![Modal creación proyecto](https://nicoavila.s3.amazonaws.com/articulos/06_03modal-creacion-nuevo-proyecto.jpg)
 
 El proyecto tardará unos segundos en crearse. Al finalizar este proceso seremos redirigidos al dashboard del proyecto. Acá debemos hacer click sobre **Agregar Firebase a tu app web**
 
-![Bienvenida Firebase](http://nicoavila.s3.amazonaws.com/articulos/06_04bienvenida-firebase.jpg)
+![Bienvenida Firebase](https://nicoavila.s3.amazonaws.com/articulos/06_04bienvenida-firebase.jpg)
 
 Se desplegará un modal que contendrá toda la información necesaria para conectarnos al proyecto. El objeto ```config``` tiene una serie de atributos necesarios para configurar más adelante Firestore en Angular, por lo que debemos dejar esta información anotada en algún lado (o simplemente pueden volver a la consola y realizar el mismo paso anterior).
 
-![Configuración Firebase](http://nicoavila.s3.amazonaws.com/articulos/06_05configuracion-firebase.jpg)
+![Configuración Firebase](https://nicoavila.s3.amazonaws.com/articulos/06_05configuracion-firebase.jpg)
 
 ## Sobe Firestore
 Firestore trabaja con **documentos**. Los documentos corresponden a objetos con una serie de atributos. Cada documento posee su identificador único alfanumérico.
@@ -52,10 +54,10 @@ Generaremos un nuevo proyecto de Angular con el siguiente comando
 ng new tutorial-angular-firestore
 ```
 
-Para instalar Firestore en Angular es necesario instalar las dependencias necesarias. El equipo de Google tiene un paquete oficial llamado [angularfire2](https://github.com/angular/angularfire2), el cual utilizaremos para integrar Firestore en nuestra aplicación.  
+Para instalar Firestore en Angular es necesario instalar las dependencias necesarias. El equipo de Google tiene un paquete oficial llamado [@angular/fire](https://github.com/angular/angularfire), el cual utilizaremos para integrar Firestore en nuestra aplicación.  
 
 ```bash
-npm install firebase angularfire2 --save
+npm install firebase @angular/fire --save
 ```
 
 Recuerdan el objeto ```config``` que vimos en pasos anteriores? Bueno, ahora será necesario ingresar esa información en el archivo ```src/app/environments/environment.ts``` de nuestra aplicación. Crearemos un nuevo atributo dentro del objeto environment llamado **firebase** y dentro agregaremos lo siguiente:
@@ -75,7 +77,7 @@ export const environment = {
 ```
 Una vez realizado ese paso, modificaremos el archivo ```src/app/app.module.ts``` y agregaremos dos nuevos imports 
 
-* ```import { AngularFireModule } from 'angularfire2';```
+* ```import { AngularFireModule } from '@angular/fire';```
 * ```import { environment } from '../environments/environment';```
 
 Nuestro archivo ```app.module.ts``` debe contener la siguiente información:
@@ -83,7 +85,7 @@ Nuestro archivo ```app.module.ts``` debe contener la siguiente información:
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 
 
@@ -106,9 +108,9 @@ export class AppModule { }
 ## Que es lo que vamos a construir?
 Vamos a construir una pequeña aplicación en donde podamos listar e ingresar fotografías de gatos, las que se desplegarán en una lista. Para ello, con nuestra aplicación configurada, seguiremos una serie de pasos
 
-![Imagen Aplicación](http://nicoavila.s3.amazonaws.com/articulos/06_06a-construir.jpg)
+![Imagen Aplicación](https://nicoavila.s3.amazonaws.com/articulos/06_06a-construir.jpg)
 
-> El framework CSS utilizado en este tutorial es [Furtive](http://furtive.co/), un microframework con lo básico. La integración con de Angular con este framework será abordado en otro artículo <3
+> El framework CSS utilizado en este tutorial es [Furtive](https://furtive.co/), un microframework con lo básico. La integración con de Angular con este framework será abordado en otro artículo <3
 
 ### Paso 1: Creación de un Service para Firestore
 Para encapsular toda la lógica de comunicación con Firestore, crearemos un nuevo servicio. Ejecutaremos el siguiente comando en la terminal:
@@ -121,7 +123,7 @@ Agregaremos lo siguiente al servicio:
 
 ```typescript
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -287,18 +289,18 @@ El valor de la etiqueta ```<p>``` mostrará el valor de *nombre*, del objeto *ca
 Firestore posee un completo sistemas de reglas que nos permitirán otorgar accesos de **lectura** y **escritura** a nuestros usuarios basado en su estado de autenticación u otra condición. Las reglas se manejan en una estructura similar al JSON.
 Para efectos de nuestro tutorial, dejaremos las reglas tal como indica la imagen:
 
-![Reglas Firestore](http://nicoavila.s3.amazonaws.com/articulos/06_11reglas.jpg)
+![Reglas Firestore](https://nicoavila.s3.amazonaws.com/articulos/06_11reglas.jpg)
 
 > De esta manera estamos permitiendo que cualquier persona que posea nuestra configuración de Firebase puede leer y escribir en nuestro proyecto. Lo dejaremos de esta manera solo para fines académicos. Sin embargo no se recomienda dejar esta regla en producción. Para leer un poco más respecto a la autenticación pueden visitar la [documentación oficial](https://firebase.google.com/docs/auth/?hl=es-419)
 
 ### Paso 4: Creación de una colección y documento
 Con lo anterior, seremos capaces de mostrar todos los documentos que se encuentren en nuestra colección *cats* :cat:. Para probar que todo funciona correctamente nos dirigiremos nuevamente a la [Consola de Administración de Firebase](https://console.firebase.google.com/) y crearemos manualmente una nueva **colección** y **documento**
 
-![Consola Administración](http://nicoavila.s3.amazonaws.com/articulos/06_07consola-administracion.jpg)
+![Consola Administración](https://nicoavila.s3.amazonaws.com/articulos/06_07consola-administracion.jpg)
 
 Haremos click en el botón que dice **Agregar colección**. Se desplegará un nuevo modal en donde debemos agregar la información que nos solicita. En primera instancia debemos crear una nueva colección, la que nombraremos *cats*. Para continuar, haremos click en el botón **Siguiente**
 
-![Nueva colección](http://nicoavila.s3.amazonaws.com/articulos/06_08creacion-coleccion-cats.jpg)
+![Nueva colección](https://nicoavila.s3.amazonaws.com/articulos/06_08creacion-coleccion-cats.jpg)
 
 El siguiente paso es la creación de un nuevo documento. Cada documento en Firestore posee un ID único por colección. Dejaremos que Firebase cree un ID para el nuevo documento haciendo click sobre el botón **ID Automático**.
 Luego, debemos agregar todos los atributos del nuevo documento. Agregaremos dos campos con la siguiente información:
@@ -308,11 +310,11 @@ Luego, debemos agregar todos los atributos del nuevo documento. Agregaremos dos 
 
 Para finalizar, haremos click en el botón **Guardar**.
 
-![Nuevo documento](http://nicoavila.s3.amazonaws.com/articulos/06_09creacion-nuevo-documento.jpg)
+![Nuevo documento](https://nicoavila.s3.amazonaws.com/articulos/06_09creacion-nuevo-documento.jpg)
 
 Al agregar el documento y revisar lo que hemos construído hasta el momento
 
-![Nuevo gatito](http://nicoavila.s3.amazonaws.com/articulos/06_10resultado-creacion-documento.jpg)
+![Nuevo gatito](https://nicoavila.s3.amazonaws.com/articulos/06_10resultado-creacion-documento.jpg)
 
 ### Paso 5: Crear nuevos documentos desde Angular
 Nuestra aplicación Angular se comunica correctamente con Firestore y es capaz de mostrar los documentos que agreguemos en la colección *cats*. Sin embargo, aun no podemos agregar, editar y eliminar documentos desde la aplicación haciendo uso de los métodos que creamos en el servicio ```firestore.service.ts```.
@@ -436,8 +438,8 @@ public editCat(documentId) {
     this.documentId = documentId;
     this.newCatForm.setValue({
       id: documentId,
-      nombre: cat.payload.data().nombre,
-      url: cat.payload.data().url
+      nombre: cat.payload.data()['nombre'],
+      url: cat.payload.data()['url']
     });
     editSubscribe.unsubscribe();
   });
