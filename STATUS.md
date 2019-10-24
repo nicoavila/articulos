@@ -7,12 +7,10 @@
 - [ ] Usando un servicio de mail transaccional con Node.
 - [ ] Chocolatey.
 - [ ] Angular, Tensorflow.js y Salud
-- [ ] State Management con NGXS en Angular
 
 # Escribiendo
 - [x] Escribiendo un motor de Raycasting: Teoría.
 - [x] Subir archivos a Google Cloud Storage usando Multer en ExpressJS.
-- [ ] ¿Qué es la Informática Biomédica?
 - [x] Integrando ThreeJS en Angular
 - [ ] Un guía rápida de Angular Material
 - [x] Revisión histórica de JavaScript.
@@ -28,3 +26,4 @@
 - [x] Angular 6 y Firestore.
 - [x] Web Components con Angular Elements.
 - [x] Detección de rostros con Google Chrome.
+- [x] State Management con NGXS en Angular
